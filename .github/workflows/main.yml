@@ -44,11 +44,13 @@ jobs:
           export SFDX_DOMAIN_RETRY=600
           export SFDX_DISABLE_APP_HUB=true
           export SFDX_LOG_LEVEL=DEBUG
+          export MANIFEST=$(echo "${GITHUB_HEAD_REF}")
+          echo "$MANIFEST"
 
           sfdx --version
           sfdx plugins --core
           sfdx force:auth:jwt:grant --instanceurl https://login.salesforce.com --clientid ${{ secrets.CONSUMER_KEY }} --jwtkeyfile assets/server.key --username ${{ secrets.SFDC_USERNAME }} --setdefaultdevhubusername
-          sfdx force:source:deploy --checkonly -x ./manifest/package.xml -username ${{ secrets.SFDC_USERNAME }} -l $TESTLEVEL
+          sfdx force:source:deploy --checkonly -x ./manifest/$MANIFEST.xml -username ${{ secrets.SFDC_USERNAME }} -l $TESTLEVEL
   Deployment-On-Merge:
     # This job will deploy when feature branch is merged to main branch
     if: github.event_name == 'push'
