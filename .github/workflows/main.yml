@@ -51,7 +51,6 @@ jobs:
           sfdx plugins --core
           sfdx force:auth:jwt:grant --instanceurl https://login.salesforce.com --clientid ${{ secrets.CONSUMER_KEY }} --jwtkeyfile assets/server.key --username ${{ secrets.SFDC_USERNAME }} --setdefaultdevhubusername
           sfdx force:source:deploy -c -w 100 -x ./manifest/$MANIFEST.xml -u ${{ secrets.SFDC_USERNAME }} -l $TESTLEVEL
-          sfdx force:source:deploy:report -u ${{ secrets.SFDC_USERNAME }}
 
   Deployment-On-Merge:
     # This job will deploy when feature branch is merged to main branch
